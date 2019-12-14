@@ -2,6 +2,18 @@
   hosts: all
   remote_user: jvbm301
   tasks:
+    - name: Install utility packages common to all hosts
+      become: yes
+      apt:
+        name:
+          - vim
+          - jq
+          - curl
+          - git
+          - at
+        state: present
+        autoclean: yes
+
     - name: Create .ssh folder
       file:
         path: ~jvbm301/.ssh
@@ -16,3 +28,35 @@
         owner: jvbm301
         group: jvbm301
         mode: 0700
+    - name: Make sure we have a 'wheel' group
+      become: yes
+      group:
+        name: wheel
+        state: present
+
+    - name: Allow 'wheel' group to have passwordless sudo
+      become: yes
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Add sudoers users to wheel group
+      become: yes
+      user:
+        name: jvbm301
+        groups: wheel
+        append: yes
+        state: present
+        createhome: yes
+
+    - name: sudo wo password
+      become: yes
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
