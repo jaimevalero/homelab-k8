@@ -10,7 +10,7 @@
           - jq
           - curl
           - git
-          - at
+          - net-tools
         state: present
         autoclean: yes
 
