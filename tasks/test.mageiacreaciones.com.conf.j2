@@ -1,16 +1,16 @@
 <VirtualHost *:*>
-    ProxyPreserveHost On
+    ProxyPreserveHost Off
 
     # Servers to proxy the connection, or;
     # List of application servers:
 
-    ProxyPass / http://192.168.1.62:80/
-    ProxyPassReverse / http://192.168.1.62:80/
+    ProxyPass        / http://{{reverse_proxy_ip}}:{{http_port}}/
+    ProxyPassReverse / http://{{reverse_proxy_ip}}:{{http_port}}/
 
-    ServerName dev.mageiacreaciones.com
+    ServerName  dev.mageiacreaciones.com
     ServerAlias test.mageiacreaciones.com  mageiacreaciones.com
 
-    ErrorLog /var/log/httpd/{{domain}}.error.log
+    ErrorLog  /var/log/httpd/{{domain}}.error.log
     CustomLog /var/log/httpd/{{domain}}.access.log common
 
 </VirtualHost>

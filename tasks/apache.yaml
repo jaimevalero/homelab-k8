@@ -5,7 +5,7 @@
   vars:
     http_port: 80
     domain: test.mageiacreaciones.com
-
+    reverse_proxy_ip: 192.168.1.62
   tasks:
     - name: install packages
       apt: name={{ item }} update_cache=yes state=latest
@@ -27,11 +27,12 @@
         - restart apache2
       loop:
          - proxy
-         - rewrite
-         - ssl
          - proxy
          - proxy_balancer
          - proxy_http
+         - remoteip
+         - rewrite
+         - ssl
 
     - name: apache2 listen on port {{ http_port }}
       lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen " line="Listen {{ http_port }}" state=present
