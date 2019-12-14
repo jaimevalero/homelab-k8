@@ -19,12 +19,11 @@
 
     kubeadm init #--pod-network-cidr=192.168.1.0/16
     kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.8.3/manifests/metallb.yaml
-    kubectl apply -f metallb-configmap.yaml
-    kubectl apply -f helloworld-service.yaml 
 
     #kubectl apply -f https://getambassador.io/yaml/ambassador/ambassador-rbac.yaml
     #kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
-    #kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+    kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+    kubectl apply -f helloworld-service.yaml 
 
   # taint
     kubectl taint nodes --all node-role.kubernetes.io/master-
@@ -40,12 +39,22 @@
     kubectl get svc
 
   # Kubernetes dashboard - permissions
-    kubectl apply -f recommended.yaml 
+#    kubectl delete serviceaccount kubernetes-dashboard
+#    kubectl create serviceaccount kubernetes-dashboard
+#    kubectl delete clusterrolebinding kubernetes-dashboard
+#    kubectl create clusterrolebinding kubernetes-dashboard  --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:kubernetes-dashboard
+#    kubectl apply -f recommended.yaml
+  # Kubernetes dashboard - permissions
+    kubectl delete -f recommended.yaml 
+    kubectl create -f recommended.yaml 
+    kubectl delete -f kubernetes-dashboard-ClusterRoleBinding.yaml
+    kubectl create -f kubernetes-dashboard-ClusterRoleBinding.yaml
     kubectl create serviceaccount kubernetes-dashboard
     kubectl delete clusterrolebinding kubernetes-dashboard
     kubectl create clusterrolebinding kubernetes-dashboard  --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:kubernetes-dashboard
 
   # Dynamic volume provisioning 
+
     helm install hostpath-provisioner  rimusz/hostpath-provisioner
 
   # Proxy
