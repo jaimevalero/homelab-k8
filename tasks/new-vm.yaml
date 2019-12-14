@@ -60,3 +60,14 @@
         regexp: '^%sudo'
         line: '%sudo ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
+
+    - name: Add serve alias for user
+      become: yes
+      lineinfile:
+        path: /root/.bashrc
+        line: "alias ll='ls -altr'"
+        owner: root
+        regexp: "^alias ll='ls -altr'$"
+        state: present
+        insertafter: EOF
+        create: True

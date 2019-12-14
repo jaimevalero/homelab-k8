@@ -4,3 +4,6 @@
 
 [proxy]
 192.168.1.66
+
+[all:vars]
+ansible_ssh_private_key_file = /Users/jaimevalero/.ssh/id_rsa_kvm

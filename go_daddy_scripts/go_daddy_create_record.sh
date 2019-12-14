@@ -7,7 +7,7 @@ API_SECRET="<replace-for-your-api-secret>"
 #DOMAIN='mageiacreaciones.com'
 #SUBDOMAIN='dev'
 #TYPE=CNAME
-#DATE="kvm.magiacreaciones.com"
+
 source ./.credentials
 # credentials contains api from go daddy (production environment)
 # End of configurable parameters
