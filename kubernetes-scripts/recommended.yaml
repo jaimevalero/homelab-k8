@@ -318,5 +318,3 @@ subjects:
 - kind: ServiceAccount
   name: kubernetes-dashboard
   namespace: kube-system
-
-
