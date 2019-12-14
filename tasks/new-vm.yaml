@@ -24,7 +24,7 @@
     - name: Upload SSH key
       copy:
         src: /Users/jaimevalero/.ssh/id_rsa_kvm.pub
-        dest: ~jvbm301/.ssh/id_rsa
+        dest: ~jvbm301/.ssh/authorized_keys
         owner: jvbm301
         group: jvbm301
         mode: 0700
