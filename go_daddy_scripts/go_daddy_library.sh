@@ -13,9 +13,23 @@ Log( )
 
 Get_Customer_ID()
 {
-  customerId=`curl  -s -k   -H "Authorization: sso-key ${API_KEY}:${API_SECRET}" \
-  "https://api.godaddy.com/v1/shoppers/${CUSTOMER_ID}?includes=customerId" | jq -r .customerId `
-  Log customerId=$customerId
+  Log API_KEY=${API_KEY}= API_SECRET=${API_SECRET}= CUSTOMER_ID=${CUSTOMER_ID}=
+  #customerId=` curl -s -k -H "Authorization: sso-key ${API_KEY}:${API_SECRET}" \
+  #"https://api.godaddy.com/v1/shoppers/${CUSTOMER_ID}?includes=customerId" | jq -r .customerId `
+  #Log customerId=$customerId
+  FILE=`mktemp`
+
+  echo "curl -s -k -H 'Authorization: sso-key ${API_KEY}:${API_SECRET}' 'https://api.godaddy.com/v1/shoppers/${CUSTOMER_ID}?includes=customerId' " > $FILE
+  chmod +x $FILE ;
+  Log Contens of $FILE : `cat $FILE`
+  $FILE > kk
+
+
+  customerId=`cat kk  | grep -o 'customerId.*' | cut -d\" -f3`
+  rm -f  $FILE kk
+
+  Log "customerId=${customerId}="
+
 }
 
 Set_Record()
@@ -24,7 +38,7 @@ Set_Record()
   TYPE="$2"
   SUBDOMAIN="$3"
   DATA="$4"
-  Get_Customer_ID
+  [ ${#customerId} -eq 0 ] && Get_Customer_ID #1>/dev/null 2>/dev/null
   echo "
   {
     \"data\": \"${DATA}\",
