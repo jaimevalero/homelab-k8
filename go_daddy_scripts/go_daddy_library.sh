@@ -2,11 +2,20 @@
 
 # Common functions to be used from other scripts
 
+FICHERO_TRAZA=/tmp/`basename $0`.log
+
+Log( )
+{
+  echo "[`basename $0`] [`date +'%Y-%m-%d %H:%M:%S'`] [$$] [${FUNCNAME[1]}] $@" | /usr/bin/tee -a $FICHERO_TRAZA
+}
+
+
+
 Get_Customer_ID()
 {
   customerId=`curl  -s -k   -H "Authorization: sso-key ${API_KEY}:${API_SECRET}" \
   "https://api.godaddy.com/v1/shoppers/${CUSTOMER_ID}?includes=customerId" | jq -r .customerId `
-  echo customerId=$customerId
+  Log customerId=$customerId
 }
 
 Set_Record()

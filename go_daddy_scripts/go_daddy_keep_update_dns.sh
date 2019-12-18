@@ -47,19 +47,19 @@ Main()
 CURRENT_IP=`Get_My_IP`
 DNS_IP=`Get_Record "$DOMAIN" "A" "$SUBDOMAIN"`
 
-echo CURRENT_IP=$CURRENT_IP=
-echo DNS_IP=$DNS_IP=
+Log CURRENT_IP=$CURRENT_IP=
+Log DNS_IP=$DNS_IP=
 
 #if (current_ip != dns_ip) then dns_ip = current_ip
 if [ "$CURRENT_IP" != "$DNS_IP" ]
 then
-  echo           "We update the $DNS_IP to $CURRENT_IP"
+  Log           "We update the $DNS_IP to $CURRENT_IP"
   Set_Record     "$DOMAIN" "A" "$SUBDOMAIN" "$CURRENT_IP"
   # Check change has been done
   NEW_IP=`       Get_Record "$DOMAIN" "A" "$SUBDOMAIN"`
-  echo           "New DNS record is $SUBDOMAIN.$DOMAIN : $NEW_IP"
+  Log           "New DNS record is $SUBDOMAIN.$DOMAIN : $NEW_IP"
 else
-  echo "Nothing to do. Both IP are equal"
+  Log "Nothing to do. Both IP are equal"
 fi
 }
 
